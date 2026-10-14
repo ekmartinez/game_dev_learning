@@ -2,58 +2,96 @@
 2.1.4 Homework
 
 Please have a look at https://pyga.me/docs/ref/window.html and then try to solve the
+
 following small exercises:
 
-1. Set up a working environment for your game programming. Install Python, your
+[Done] 1. Set up a working environment for your game programming. Install Python, your
 preferred editor, and the latest Pygame-ce version. Open the directory containing
 your Pygame source code and try to run start01.py.
 
-2. Change the background color of the window. Use RGB values as well as named
+[Done] 2. Change the background color of the window. Use RGB values as well as named
 colors.
 
-3. Change the size of the window.
+[Done] 3. Change the size of the window.
 
-4. Change the position of the window. Use position values and also try WINDOWPOS-
+[Done] 4. Change the position of the window. Use position values and also try WINDOWPOS-
 _CENTERED and WINDOWPOS_UNDEFINED .
 
-5. Create the window as a resizable window and try to resize it.
+[Done] 5. Create the window as a resizable window and try to resize it.
 
-6. Define a minimum and maximum window size, show the actual size in the title
+[Done] 6. Define a minimum and maximum window size, show the actual size in the title
 bar, and try to resize the window to its limits.
 
-7. Show the actual window position in the title bar.
+[Done] 7. Show the actual window position in the title bar.
 
-8. Play a little bit with the opacity attribute of the window.
+[Done] 8. Play a little bit with the opacity attribute of the window.
 
-9. Change the title of the window during runtime according to a counter. Shut down
+[Done] 9. Change the title of the window during runtime according to a counter. Shut down
 the program if counter is greater 600.
 
-10. Create a borderless window.
+[Done] 10. Create a borderless window.
 
-11. Try a fullscreen window.
+[Done] 11. Try a fullscreen window.
 
-12. Try to arrange three windows in a row. Compute the x-position of the second and
-third window based on the window size and a useful gap between them.
+[Done] 12. Try to arrange three windows in a row. Compute the x-position of the second and
+third window based on the window size and a useful gap between them. (Done in start2.py)
 """
 
 import pygame
 
 def main():
-    pygame.init()                                   
-    screen = pygame.display.set_mode((400,600))     # Create window§\label{srcStart0501}§
-    pygame.display.set_caption("Window by Display Module") # Set window title§\label{srcStart0502}§
+    pygame.init()
+
+    window = pygame.Window(
+        "Pygame Homework",
+        size=(400, 600),
+        resizable=True,                            # Requirement 5
+        borderless=True,                           # Requirement 10
+    )
+    window.set_fullscreen(True)                    # Requirement 11
+
+    window.opacity = 0.5                           # Requirement 8 (Doesn't work on x11)
+
+    window.minimum_size = (300, 400)               # Requirement 6
+    window.maximum_size = (800, 1000)              # Requirement 6
+
+    screen = window.get_surface()
+
+    #window.position = (10, 50)                    # Requirement 4
+    #window.position = pygame.WINDOWPOS_UNDEFINED  # Requirement 4
+    window.position = pygame.WINDOWPOS_CENTERED    # Requirement 4
+
+    # screen = pygame.display.set_mode((400,600))
+    # pygame.display.set_caption("Window by Display Module")
 
     running = True
+    counter = 0
     while running:                                  
         for event in pygame.event.get():            
             if event.type == pygame.QUIT:           
                 running = False
+
+
+        counter += 1                            # Requirement 9
+        window.title = f"Counter: {counter}"    # Requirement 9
+
+        if counter > 600:                       # Requirement 9
+            running = False                     # Requirement 9
+
+        #time.sleep(1)
+        #width, height = window.size                        # Requirement 6
+        #x, y = window.position                             # Requirement 6
+
+        #window.title = f"Window Size: {width} x {height} | Postition ({x}, {y})"  # Requirement 6, 7
+
+
+        screen = window.get_surface()
         
-        screen.fill("white")                        # Fill background with white§\label{srcStart0503}§
-        pygame.display.flip()                       # Update display§\label{srcStart0504}§
-
+        screen.fill("green")           # Requirement 2
+        # screen.fill((0, 255, 0))     # Requirement 2
+        window.flip()
+        # pygame.display.flip()
     pygame.quit()                                   
-
 
 if __name__ == "__main__":
     main()
