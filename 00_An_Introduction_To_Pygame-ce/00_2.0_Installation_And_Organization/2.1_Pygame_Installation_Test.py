@@ -5,7 +5,7 @@ def main():
     window = pygame.Window(size=(400, 100))
     window.title = "Pygame test"
     screen = window.get_surface()
-    print(pygame.display.get_driver())
+    clock = pygame.time.Clock()
 
     running = True
 
@@ -13,8 +13,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            screen.fill("white")
-            window.flip()
+        screen.fill("white")
+        window.flip()
+        clock.tick(60)
 
     pygame.quit()
 
